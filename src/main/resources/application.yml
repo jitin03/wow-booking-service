@@ -1,0 +1,61 @@
+server:
+  port: 8093
+
+spring:
+  rabbitmq:
+    host: localhost
+#    host: ec2-100-25-77-57.compute-1.amazonaws.com
+    username: guest
+    password: guest
+    port: 5672
+
+
+  redis:
+#    host: redis
+    host: localhost
+    port: 6379
+    timeout: 10000
+  cache:
+    redis:
+      cache-null-values: false
+      time-to-live: 10S
+  data:
+    mongodb:
+      authentication-database: admin
+      username: root
+      password: root
+      database: demo
+      port: 27017
+      host: ${MONGODB_HOST:localhost}
+#      host: ${MONGODB_HOST:a38ce82f83c66480885974cf61274e91-1080412867.us-east-1.elb.amazonaws.com}
+
+
+
+  application:
+    name: BOOKING-SERVICE
+  config:
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:9296}
+
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+#    fetch-registry: true
+#  instance:
+#    prefer-ip-address: true
+
+rabbitmq:
+  binding:
+    order:
+      routing:
+        key: order_routing_key
+  exchange:
+    name: order_exchange
+  queue:
+    order:
+      name: order
